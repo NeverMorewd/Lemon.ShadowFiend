@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemon.ShadowFiend", "Lemon.ShadowFiend\Lemon.ShadowFiend.csproj", "{8BCFCDBB-E304-49C7-838E-7FF492B75DEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcxHome", "OcxHome\OcxHome.csproj", "{AEBBA238-9CED-47FA-BD72-636F8CFD3798}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8BCFCDBB-E304-49C7-838E-7FF492B75DEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BCFCDBB-E304-49C7-838E-7FF492B75DEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BCFCDBB-E304-49C7-838E-7FF492B75DEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BCFCDBB-E304-49C7-838E-7FF492B75DEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEBBA238-9CED-47FA-BD72-636F8CFD3798}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEBBA238-9CED-47FA-BD72-636F8CFD3798}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEBBA238-9CED-47FA-BD72-636F8CFD3798}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEBBA238-9CED-47FA-BD72-636F8CFD3798}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {42B12DED-B19A-4B8C-A311-8F3081D7D6FF}
+	EndGlobalSection
+EndGlobal
