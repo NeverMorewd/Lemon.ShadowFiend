@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
 using Lemon.Hosting.AvaloniauiDesktop;
+using Lemon.ModuleNavigation.Avaloniaui;
 using Lemon.ShadowFiend.ViewModels;
 using Lemon.ShadowFiend.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,11 +26,14 @@ namespace Lemon.ShadowFiend
             hostBuilder.Logging.AddConsole();
             hostBuilder.Logging.SetMinimumLevel(LogLevel.Debug);
 
+            hostBuilder.Services.AddAvaNavigationSupport();
+            hostBuilder.Services.AddView<LogonView, LogonViewModel>(nameof(LogonView));
+            hostBuilder.Services.AddView<MainView, MainViewModel>(nameof(MainView));
             hostBuilder.Services.AddTransient<IAxRdpHome, AxMsRdpHomeForm>();
             hostBuilder.Services.AddAvaloniauiDesktopApplication<App>(BuildAvaloniaApp);
-            hostBuilder.Services.AddMainWindow<MainWindow, MainWindowViewModel>();
+            hostBuilder.Services.AddMainWindow<ShellWindow, AppViewModel>();
             var appHost = hostBuilder.Build();
-            appHost.RunAvaloniauiApplication<MainWindow>(args);
+            appHost.RunAvaloniauiApplication<ShellWindow>(args);
         }
 
         private static AppBuilder BuildAvaloniaApp(AppBuilder appBuilder)

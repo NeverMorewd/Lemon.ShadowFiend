@@ -15,6 +15,10 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Assets\OIG.N5o-removebg-preview.png" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.2.0" />
@@ -25,7 +29,9 @@
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.0" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="11.2.0" />
     <PackageReference Include="Lemon.Hosting.AvaloniauiDesktop" Version="1.0.0" />
+    <PackageReference Include="Lemon.ModuleNavigation.Avaloniaui" Version="2.0.0-beta" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="Semi.Avalonia" Version="11.2.0" />
   </ItemGroup>
 
 

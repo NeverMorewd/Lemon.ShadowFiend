@@ -1,0 +1,67 @@
+<Window
+    ExtendClientAreaTitleBarHeightHint="40"
+    ExtendClientAreaToDecorationsHint="True"
+    Icon="../Assets/lemon-50.png"
+    Title="ShadowFiend"
+    WindowStartupLocation="CenterScreen"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="Lemon.ShadowFiend.Views.ShellWindow"
+    x:DataType="vm:AppViewModel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lm="https://github.com/NeverMorewd/Lemon.ModuleNavigation"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:Lemon.ShadowFiend.Views"
+    xmlns:vm="using:Lemon.ShadowFiend.ViewModels"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Window.Styles>
+        <Style Selector="Image#WindowIcon">
+            <Setter Property="Width" Value="28" />
+            <Setter Property="Height" Value="28" />
+        </Style>
+        <Style Selector="Image#WindowIcon:pointerover">
+            <Style.Animations>
+                <Animation Duration="0:0:0.5" IterationCount="INFINITE">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="RotateTransform.Angle" Value="1" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="RotateTransform.Angle" Value="360" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+    </Window.Styles>
+    <Design.DataContext>
+        <!--
+            This only sets the DataContext for the previewer in an IDE,
+            to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
+        -->
+        <vm:AppViewModel />
+    </Design.DataContext>
+    <Grid
+        Margin="4,4,4,4"
+        RowDefinitions="40,*,280"
+        ShowGridLines="True">
+
+        <StackPanel
+            Grid.Row="0"
+            HorizontalAlignment="Left"
+            Margin="2,2,0,0"
+            Orientation="Horizontal"
+            VerticalAlignment="Top">
+            <Image
+                Name="WindowIcon"
+                Source="../Assets/lemon-50.png"
+                Stretch="UniformToFill" />
+            <TextBlock
+                FontWeight="SemiBold"
+                Foreground="Gray"
+                Margin="2,5,0,0"
+                Text="ShadowFiend" />
+        </StackPanel>
+        <ContentControl Grid.Row="1" lm:NavigationExtension.RegionName="MainRegion" />
+    </Grid>
+</Window>

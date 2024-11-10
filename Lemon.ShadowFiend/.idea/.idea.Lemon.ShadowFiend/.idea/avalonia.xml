@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="Lemon.ShadowFiend/App.axaml" value="Lemon.ShadowFiend/Lemon.ShadowFiend.csproj" />
+        <entry key="Lemon.ShadowFiend/Views/LogonView.axaml" value="Lemon.ShadowFiend/Lemon.ShadowFiend.csproj" />
+        <entry key="Lemon.ShadowFiend/Views/MainView.axaml" value="Lemon.ShadowFiend/Lemon.ShadowFiend.csproj" />
+        <entry key="Lemon.ShadowFiend/Views/MainWindow.axaml" value="Lemon.ShadowFiend/Lemon.ShadowFiend.csproj" />
+        <entry key="Lemon.ShadowFiend/Views/ShellWindow.axaml" value="Lemon.ShadowFiend/Lemon.ShadowFiend.csproj" />
+      </map>
+    </option>
+  </component>
+</project>
