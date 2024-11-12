@@ -15,6 +15,7 @@ namespace Lemon.ShadowFiend.ViewModels
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
             _dialogService = dialogService;
+            _navigationService.RequestViewNavigation("MainRegion", "LogonView");
         }
 
         public IServiceProvider ServiceProvider => _serviceProvider;

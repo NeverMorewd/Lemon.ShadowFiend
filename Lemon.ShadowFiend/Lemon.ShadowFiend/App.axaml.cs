@@ -22,8 +22,7 @@ namespace Lemon.ShadowFiend
         public override void OnFrameworkInitializationCompleted()
         {
             base.OnFrameworkInitializationCompleted();
-            var dialogService = ServiceProvider.GetRequiredService<IDialogService>();
-            //dialogService.Show("LogonView");
+            Akavache.Registrations.Start("AkavachLemon.ShadowFiend");
         }
     }
 }

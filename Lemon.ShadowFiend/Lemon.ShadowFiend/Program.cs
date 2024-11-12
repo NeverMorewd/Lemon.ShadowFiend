@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using OcxHome.AxMsRdpHome;
 using System;
 using System.Runtime.Versioning;
+using Lemon.Avaloniaui.Extensions;
+using Lemon.Avaloniaui.Extensions.Abstracts;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Lemon.ShadowFiend
@@ -27,6 +29,7 @@ namespace Lemon.ShadowFiend
             hostBuilder.Logging.SetMinimumLevel(LogLevel.Debug);
 
             hostBuilder.Services.AddAvaNavigationSupport();
+            hostBuilder.Services.AddSingleton<ITopLevelProvider, TopLevelProvider>();
             hostBuilder.Services.AddView<LogonView, LogonViewModel>(nameof(LogonView));
             hostBuilder.Services.AddView<MainView, MainViewModel>(nameof(MainView));
             hostBuilder.Services.AddTransient<IAxRdpHome, AxMsRdpHomeForm>();

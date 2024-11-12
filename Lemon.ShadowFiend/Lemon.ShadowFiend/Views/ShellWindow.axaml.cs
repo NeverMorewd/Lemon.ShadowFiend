@@ -16,8 +16,7 @@ namespace Lemon.ShadowFiend.Views
         protected override void OnLoaded(RoutedEventArgs e)
         {
             base.OnLoaded(e);
-            _navigationService.NavigateToView("MainRegion", "LogonView");
-            SizeToContent = SizeToContent.WidthAndHeight;
+            //_navigationService.NavigateToView("MainRegion", "LogonView");
         }
     }
 }

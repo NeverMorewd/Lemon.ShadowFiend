@@ -1,27 +1,25 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Lemon.Avaloniaui.Extensions.Abstracts;
 using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Core;
 
 namespace Lemon.ShadowFiend.ViewModels;
 
-public class MainViewModel:INavigationAware
+public class MainViewModel : INavigationAware
 {
-    public MainViewModel()
+    private readonly ITopLevelProvider _topLevelProvider;
+
+    public MainViewModel(ITopLevelProvider topLevelProvider)
     {
-        
+        _topLevelProvider = topLevelProvider;
     }
 
     public void OnNavigatedTo(NavigationContext navigationContext)
     {
-        if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime
-            desktopStyleApplicationLifetime)
-        {
-            desktopStyleApplicationLifetime.MainWindow.SizeToContent = SizeToContent.Manual;
-            desktopStyleApplicationLifetime.MainWindow.Width = 1000;
-            desktopStyleApplicationLifetime.MainWindow.Height = 600;
-        }
+        _topLevelProvider.SetMainWindowSize(900,600);
+        _topLevelProvider.SetMainWindowCenterScreen();
     }
 
     public bool IsNavigationTarget(NavigationContext navigationContext)
