@@ -6,7 +6,6 @@ namespace Lemon.ShadowFiend.NativeHost.AxRdp
 {
     public class AxRdpHost : NativeControlHost
     {
-        //public static IAxRdpProvder? Implementation { get; }
         public static readonly StyledProperty<IAxRdpProvder> ImplementationProperty =
             AvaloniaProperty.Register<AxRdpHost, IAxRdpProvder>(nameof(Implementation), defaultValue: new AxRdpProvder(((App)Application.Current!)!.ServiceProvider));
 
