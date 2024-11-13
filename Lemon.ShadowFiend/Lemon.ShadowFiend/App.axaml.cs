@@ -1,8 +1,6 @@
 using Avalonia;
 using Avalonia.Markup.Xaml;
 using System;
-using Lemon.ModuleNavigation.Abstracts;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Lemon.ShadowFiend
 {
