@@ -11,7 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 
@@ -30,8 +29,10 @@
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.0" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="11.2.0" />
     <PackageReference Include="Lemon.Hosting.AvaloniauiDesktop" Version="1.0.0" />
-    <PackageReference Include="Lemon.ModuleNavigation.Avaloniaui" Version="2.0.1-beta" />
+    <PackageReference Include="Lemon.ModuleNavigation.Avaloniaui" Version="2.0.2-beta" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="R3Extensions.Avalonia" Version="1.2.9" />
+    <PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
     <PackageReference Include="Semi.Avalonia" Version="11.2.0" />
   </ItemGroup>
 

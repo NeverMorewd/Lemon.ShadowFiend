@@ -1,22 +1,46 @@
 <UserControl
-    Height="500"
-    Width="350"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d"
     x:Class="Lemon.ShadowFiend.Views.LogonView"
     x:DataType="vm:LogonViewModel"
     xmlns="https://github.com/avaloniaui"
+    xmlns:app="clr-namespace:Lemon.ShadowFiend.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Lemon.ShadowFiend.ViewModels"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <DockPanel>
+    <UserControl.Styles>
+        <Style Selector="TextBox /template/ DataValidationErrors">
+            <Setter Property="Theme" Value="{DynamicResource TooltipDataValidationErrors}" />
+        </Style>
+    </UserControl.Styles>
+    <DockPanel Margin="5">
         <StackPanel Orientation="Vertical" Spacing="5">
-            <ComboBox />
-            <TextBox />
-            <TextBox />
-            <Button Command="{Binding LogonCommand}" Content="Logon" />
+            <ComboBox
+                HorizontalAlignment="Stretch"
+                ItemsSource="{Binding Path=RdpTypes, Source={x:Static app:AppContextModel.Current}}"
+                SelectedItem="{Binding Path=CurrentRdpType.Value, Source={x:Static app:AppContextModel.Current}}" />
+            <TextBox
+                Name="UserName"
+                Text="{Binding UserName.Value}"
+                Watermark="UserName" />
+            <TextBox
+                Name="Pwd"
+                PasswordChar="*"
+                Text="{Binding Password.Value}"
+                Watermark="Password(not pin code)" />
+            <Button
+                Command="{Binding LogonCommand}"
+                Content="Logon"
+                IsDefault="True">
+                <Button.CommandParameter>
+                    <MultiBinding>
+                        <Binding ElementName="UserName" Path="Text" />
+                        <Binding ElementName="Pwd" Path="Text" />
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
         </StackPanel>
     </DockPanel>
 </UserControl>
