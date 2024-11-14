@@ -9,12 +9,12 @@ using R3;
 
 namespace Lemon.ShadowFiend.ViewModels
 {
-    public class AppViewModel : ViewModelBase, IServiceAware
+    public class ShellViewModel : ViewModelBase, IServiceAware
     {
         private readonly INavigationService _navigationService;
         private readonly IDialogService _dialogService;
 
-        public AppViewModel(IServiceProvider serviceProvider, IDialogService dialogService,
+        public ShellViewModel(IServiceProvider serviceProvider, IDialogService dialogService,
             INavigationService navigationService)
         {
             ServiceProvider = serviceProvider;

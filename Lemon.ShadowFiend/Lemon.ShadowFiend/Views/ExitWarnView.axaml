@@ -11,16 +11,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:Lemon.ShadowFiend.ViewModels"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <DockPanel LastChildFill="True">
+    <DockPanel LastChildFill="True" Margin="10">
         <Grid DockPanel.Dock="Bottom">
             <Button
+                Classes="Danger"
                 Command="{Binding ConfirmCommand}"
                 Content="Confirm"
-                HorizontalAlignment="Left" />
+                HorizontalAlignment="Left"
+                Theme="{DynamicResource SolidButton}" />
             <Button
                 Command="{Binding CancelCommand}"
                 Content="Cancel"
-                HorizontalAlignment="Right" />
+                HorizontalAlignment="Right"
+                Theme="{DynamicResource SolidButton}" />
         </Grid>
         <Grid>
             <TextBlock

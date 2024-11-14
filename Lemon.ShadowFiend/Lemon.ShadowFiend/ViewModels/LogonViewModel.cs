@@ -38,16 +38,25 @@ public class LogonViewModel : ViewModelBase, IDialogAware, INavigationAware
         _cacheProvider = cacheProvider;
         UserName = new BindableReactiveProperty<string>().EnableValidation();
         Password = new BindableReactiveProperty<string>().EnableValidation();
-        LogonCommand =
-            new ReactiveCommand<ReadOnlyCollection<object>, (bool, string)>(LogonExecute, AwaitOperation.Sequential);
+        LogonCommand = new ReactiveCommand<ReadOnlyCollection<object>, (bool, string)>(LogonExecute, AwaitOperation.Sequential);
         LogonCommand.ChangeCanExecute(false);
-        LogonCommand.Subscribe(r =>
-        {
-            if (r.Item1)
+        LogonCommand
+            .SubscribeOnSynchronize(this)
+            .SubscribeAwait(async (r, token) =>
             {
-                _navigationService.RequestViewNavigation("MainRegion", "MainView", BuildParameters());
-            }
-        });
+                if (r.Item1)
+                {
+                    _navigationService.RequestViewNavigation("MainRegion", "MainView", BuildParameters());
+                }
+                else
+                {
+                    // System.ArgumentException: An item with the same key has already been added. Key: Invalid username or password
+                    _topLevelProvider.Ensure();
+                    _topLevelProvider.NotificationManager!.Show("Invalid username or password",
+                        NotificationType.Error,TimeSpan.FromSeconds(2));
+                    await Task.Delay(TimeSpan.FromSeconds(2), token);
+                }
+            }, maxConcurrent: 1);
         UserName.Select(name => !string.IsNullOrEmpty(name))
             .Do(r =>
             {
@@ -71,6 +80,13 @@ public class LogonViewModel : ViewModelBase, IDialogAware, INavigationAware
         AppContextModel.Current.CurrentRdpType.SubscribeAwait(OnNext);
     }
 
+   
+
+    public BindableReactiveProperty<string> UserName { get; }
+    public BindableReactiveProperty<string> Password { get; }
+    public ReactiveCommand<ReadOnlyCollection<object>, (bool, string)> LogonCommand { get; }
+    public string Title => "Logon";
+    public event Action<IDialogResult>? RequestClose;
     private async ValueTask OnNext(RdpType type, CancellationToken token)
     {
         if (type == RdpType.ChildSession)
@@ -97,20 +113,24 @@ public class LogonViewModel : ViewModelBase, IDialogAware, INavigationAware
             }
         }
     }
-
-    public BindableReactiveProperty<string> UserName { get; }
-    public BindableReactiveProperty<string> Password { get; }
-    public ReactiveCommand<ReadOnlyCollection<object>, (bool, string)> LogonCommand { get; }
-    public string Title => "Logon";
-    public event Action<IDialogResult>? RequestClose;
-
     private async ValueTask<(bool, string)> LogonExecute(ReadOnlyCollection<object> input,
         CancellationToken cancellationToken)
     {
-        var machineName = await _windowsIdentifyService.GetCurrentMachineName();
-        var userInfo = input.Cast<string>().ToArray();
-        var result = _windowsIdentifyService.TryLogon(userInfo[0], userInfo[1], machineName!, out var message);
-        return (result, message);
+        AppContextModel.Current.Busy.Value = true;
+        try
+        {
+            var machineName = await _windowsIdentifyService.GetCurrentMachineName();
+            return await Task.Run(() =>
+            {
+                var userInfo = input.Cast<string>().ToArray();
+                var result = _windowsIdentifyService.TryLogon(userInfo[0], userInfo[1], machineName!, out var message);
+                return (result, message);
+            }, cancellationToken);
+        }
+        finally
+        {
+            AppContextModel.Current.Busy.Value = false;
+        }
     }
 
     public void OnDialogClosed()

@@ -15,6 +15,7 @@ using Lemon.Avaloniaui.Extensions;
 using Lemon.Avaloniaui.Extensions.Abstracts;
 using Lemon.ModuleNavigation.Avaloniaui.Dialogs;
 using Lemon.ShadowFiend.Services;
+using R3;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Lemon.ShadowFiend
@@ -40,8 +41,9 @@ namespace Lemon.ShadowFiend
             hostBuilder.Services.AddView<ExitWarnView, ExitWarnViewModel>("ExitWarn");
             hostBuilder.Services.AddTransient<IAxRdpHome, AxMsRdpHomeForm>();
             hostBuilder.Services.AddAvaloniauiDesktopApplication<App>(BuildAvaloniaApp);
-            hostBuilder.Services.AddMainWindow<ShellWindow, AppViewModel>();
+            hostBuilder.Services.AddMainWindow<ShellWindow, ShellViewModel>();
             var appHost = hostBuilder.Build();
+            ObservableSystem.RegisterUnhandledExceptionHandler(Console.WriteLine);
             appHost.RunAvaloniauiApplication<ShellWindow>(args);
         }
 

@@ -8,8 +8,9 @@
     d:DesignWidth="800"
     mc:Ignorable="d"
     x:Class="Lemon.ShadowFiend.Views.ShellWindow"
-    x:DataType="vm:AppViewModel"
+    x:DataType="vm:ShellViewModel"
     xmlns="https://github.com/avaloniaui"
+    xmlns:app="clr-namespace:Lemon.ShadowFiend.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:lm="https://github.com/NeverMorewd/Lemon.ModuleNavigation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -36,8 +37,7 @@
     <Grid
         Margin="4,4,4,4"
         RowDefinitions="40,*,Auto"
-        ShowGridLines="True">
-
+        ShowGridLines="False">
         <StackPanel
             Grid.Row="0"
             HorizontalAlignment="Left"
@@ -55,5 +55,17 @@
                 Text="ShadowFiend" />
         </StackPanel>
         <ContentControl Grid.Row="1" lm:NavigationExtension.RegionName="MainRegion" />
+        <ContentControl Grid.Row="2" lm:NavigationExtension.RegionName="ConsoleRegion" />
+        <ProgressBar
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            Height="100"
+            HorizontalAlignment="Center"
+            IsIndeterminate="True"
+            IsVisible="{Binding Busy.Value, Source={x:Static app:AppContextModel.Current}}"
+            ShowProgressText="False"
+            Theme="{DynamicResource ProgressRing}"
+            VerticalAlignment="Center"
+            Width="100" />
     </Grid>
 </Window>

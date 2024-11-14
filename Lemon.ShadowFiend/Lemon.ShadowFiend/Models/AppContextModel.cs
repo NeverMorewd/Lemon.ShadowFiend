@@ -13,6 +13,7 @@ public class AppContextModel : ViewModelBase
     {
         RdpTypes = EnumUtils.GetAllMembers<RdpType>();
         CurrentRdpType = new BindableReactiveProperty<RdpType>(RdpType.ChildSession);
+        Busy = new BindableReactiveProperty<bool>(false);
     }
 
     public BindableReactiveProperty<RdpType> CurrentRdpType
@@ -21,4 +22,6 @@ public class AppContextModel : ViewModelBase
     }
 
     public IEnumerable<RdpType> RdpTypes { get; }
+
+    public BindableReactiveProperty<bool> Busy { get; }
 }

@@ -1,8 +1,8 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Lemon.Avaloniaui.Extensions.Abstracts;
+using Lemon.ShadowFiend.Models;
 using Lemon.ShadowFiend.ViewModels;
+using R3;
 
 namespace Lemon.ShadowFiend.Views
 {
@@ -13,12 +13,18 @@ namespace Lemon.ShadowFiend.Views
         {
             InitializeComponent();
             _topLevelProvider = topLevelProvider;
+            AppContextModel.Current.Busy
+                .ObserveOnUIThreadDispatcher()
+                .Subscribe(b =>
+                {
+                    IsEnabled = !b;
+                });
         }
 
         protected override async void OnClosing(WindowClosingEventArgs e)
         {
             e.Cancel = true;
-            if (DataContext is not AppViewModel viewModel) return;
+            if (DataContext is not ShellViewModel viewModel) return;
             var allow = await viewModel.RaiseExitWarning();
             if (allow)
             {

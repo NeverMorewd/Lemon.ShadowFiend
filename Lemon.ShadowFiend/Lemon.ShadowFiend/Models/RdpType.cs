@@ -2,6 +2,6 @@ namespace Lemon.ShadowFiend.Models;
 
 public enum RdpType : short
 {
-    RemoteSession = 1,
+    //RemoteSession = 1,//Ongoing
     ChildSession = 2,
 }

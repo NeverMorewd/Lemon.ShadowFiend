@@ -31,9 +31,11 @@
                 Text="{Binding Password.Value}"
                 Watermark="Password(not pin code)" />
             <Button
+                Classes="Primary"
                 Command="{Binding LogonCommand}"
                 Content="Logon"
-                IsDefault="True">
+                IsDefault="True"
+                Theme="{DynamicResource SolidButton}">
                 <Button.CommandParameter>
                     <MultiBinding>
                         <Binding ElementName="UserName" Path="Text" />

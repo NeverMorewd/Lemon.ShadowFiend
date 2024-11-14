@@ -29,7 +29,7 @@ public class TopLevelProvider : ITopLevelProvider
             }
             _notificationManager = new WindowNotificationManager(_topLevel)
             {
-                MaxItems = 3,
+                MaxItems = 30,
                 Position = NotificationPosition.BottomCenter,
                 /*Width = 100,
                 Height = 50,
