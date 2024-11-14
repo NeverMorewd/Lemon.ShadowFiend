@@ -1,5 +1,6 @@
 ﻿using Avalonia.Platform;
 using System;
+using System.Threading.Tasks;
 
 namespace Lemon.ShadowFiend.NativeHost.AxRdp
 {
@@ -9,6 +10,10 @@ namespace Lemon.ShadowFiend.NativeHost.AxRdp
         void Connect(string server, string userName, string password);
         void ConntectToChildSession(string userName, string password);
         void Disconnect();
+        /// <summary>
+        /// long time task
+        /// </summary>
+        Task Logout();
         IPlatformHandle CreateControl(bool isSecond, IPlatformHandle parent, Func<IPlatformHandle> createDefault);
     }
 }

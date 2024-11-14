@@ -1,9 +1,39 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="Lemon.ShadowFiend.Views.DialogWindow"
-        Title="DialogWindow">
-    Welcome to Avalonia!
+<Window
+    CanResize="False"
+    ExtendClientAreaChromeHints="SystemChrome"
+    ExtendClientAreaTitleBarHeightHint="30"
+    ExtendClientAreaToDecorationsHint="True"
+    ShowInTaskbar="False"
+    SizeToContent="WidthAndHeight"
+    Title="DialogWindow"
+    WindowStartupLocation="CenterOwner"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="Lemon.ShadowFiend.Views.DialogWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Window.Styles>
+        <Styles>
+            <Style Selector="Window">
+                <Setter Property="Template">
+                    <ControlTemplate>
+                        <Border Background="#16161A" BorderThickness="0">
+                            <Grid RowDefinitions="30,*">
+                                <ContentPresenter
+                                    Content="{TemplateBinding Content}"
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    Padding="5" />
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter>
+            </Style>
+        </Styles>
+
+    </Window.Styles>
 </Window>

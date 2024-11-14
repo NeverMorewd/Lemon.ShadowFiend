@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using MSTSCLib;
 using System.ComponentModel;
+using Platform.Invoke.Win32.ChildSession;
 
 namespace OcxHome.AxMsRdpHome
 {
@@ -96,6 +97,20 @@ namespace OcxHome.AxMsRdpHome
         void IAxRdpHome.Connect(string server, string name, string pwd, bool childSession)
         {
             ConnectCore(server, name, pwd, childSession);
+        }
+
+        public void Disconnect()
+        {
+            axMsRdpClient8?.Disconnect();
+        }
+
+        public Task Logout()
+        {
+            return 
+            Task.Factory.StartNew(() =>
+            {
+                ChildSessionHelper.LogOutChildSession();
+            },TaskCreationOptions.LongRunning);
         }
     }
 }

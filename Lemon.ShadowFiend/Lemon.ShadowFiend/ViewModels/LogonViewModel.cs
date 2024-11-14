@@ -1,10 +1,10 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using Akavache;
+using Avalonia.Controls.Notifications;
 using Lemon.Avaloniaui.Extensions.Abstracts;
 using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Core;
@@ -12,6 +12,7 @@ using Lemon.ShadowFiend.Models;
 using Lemon.ShadowFiend.Services;
 using Lemon.ShadowFiend.Utils;
 using Microsoft.Extensions.Logging;
+using Platform.Invoke.Win32.ChildSession;
 using R3;
 
 namespace Lemon.ShadowFiend.ViewModels;
@@ -37,7 +38,8 @@ public class LogonViewModel : ViewModelBase, IDialogAware, INavigationAware
         _cacheProvider = cacheProvider;
         UserName = new BindableReactiveProperty<string>().EnableValidation();
         Password = new BindableReactiveProperty<string>().EnableValidation();
-        LogonCommand = new ReactiveCommand<ReadOnlyCollection<object>, (bool, string)>(LogonExecute, AwaitOperation.Sequential);
+        LogonCommand =
+            new ReactiveCommand<ReadOnlyCollection<object>, (bool, string)>(LogonExecute, AwaitOperation.Sequential);
         LogonCommand.ChangeCanExecute(false);
         LogonCommand.Subscribe(r =>
         {
@@ -79,6 +81,20 @@ public class LogonViewModel : ViewModelBase, IDialogAware, INavigationAware
             {
                 Password.Value = userInfo.Value.Password;
             }
+
+            if (ChildSessionHelper.IsSupportChildSession())
+            {
+                if (!ChildSessionHelper.IsEnableChildSession())
+                {
+                    var enable = ChildSessionHelper.EnableChildSession();
+                    if (!enable)
+                    {
+                        _topLevelProvider.NotificationManager!.Show(
+                            "Fail to enable child session!Please restart with Administrator!", NotificationType.Error,
+                            TimeSpan.FromSeconds(5));
+                    }
+                }
+            }
         }
     }
 
@@ -109,8 +125,9 @@ public class LogonViewModel : ViewModelBase, IDialogAware, INavigationAware
 
     public void OnNavigatedTo(NavigationContext navigationContext)
     {
-        _topLevelProvider.SetMainWindowSize(300, 400);
+        _topLevelProvider.SetMainWindowSize(400, 500);
         _topLevelProvider.SetMainWindowCenterScreen();
+        _topLevelProvider.Ensure();
     }
 
     public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -121,8 +138,8 @@ public class LogonViewModel : ViewModelBase, IDialogAware, INavigationAware
 
     public async void OnNavigatedFrom(NavigationContext navigationContext)
     {
-        _windowsIdentifyService.SetCache(new WindowsIdentityModel(UserName.Value, 
-            Password.Value, 
+        _windowsIdentifyService.SetCache(new WindowsIdentityModel(UserName.Value,
+            Password.Value,
             (await _windowsIdentifyService.GetCurrentMachineName())!));
     }
 

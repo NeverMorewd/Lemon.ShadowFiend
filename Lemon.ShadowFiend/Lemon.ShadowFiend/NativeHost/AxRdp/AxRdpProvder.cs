@@ -4,6 +4,7 @@ using OcxHome.AxMsRdpHome;
 using ReactiveUI;
 using System;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using OcxHome;
 
 namespace Lemon.ShadowFiend.NativeHost.AxRdp
@@ -20,6 +21,14 @@ namespace Lemon.ShadowFiend.NativeHost.AxRdp
         }
 
         public event Action<nint>? OnInitialized;
+
+        public async Task Logout()
+        {
+            if (_isInitialized)
+            {
+                await _axRdpHome!.Logout();
+            }
+        }
 
         IPlatformHandle IAxRdpProvder.CreateControl(bool isSecond, IPlatformHandle parent, Func<IPlatformHandle> createDefault)
         {
@@ -72,7 +81,7 @@ namespace Lemon.ShadowFiend.NativeHost.AxRdp
         {
             if (_isInitialized)
             {
-                
+                _axRdpHome!.Disconnect();
             }
         }
 

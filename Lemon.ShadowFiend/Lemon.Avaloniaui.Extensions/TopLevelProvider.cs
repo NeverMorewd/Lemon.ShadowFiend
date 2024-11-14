@@ -12,6 +12,7 @@ public class TopLevelProvider : ITopLevelProvider
     private TopLevel? _topLevel;
     private WindowNotificationManager? _notificationManager;
     private readonly SemaphoreSlim _semaphore = new(1, 1);
+    private IClassicDesktopStyleApplicationLifetime? _desktopLifetime;
 
     public TopLevelProvider()
     {
@@ -22,17 +23,31 @@ public class TopLevelProvider : ITopLevelProvider
         get
         {
             if (_notificationManager != null) return _notificationManager;
-            if (_topLevel != null)
+            if (_topLevel == null)
             {
-                _notificationManager = new WindowNotificationManager(_topLevel)
-                {
-                    MaxItems = 3,
-                    Position = NotificationPosition.BottomRight
-                };
+                Ensure();
             }
+            _notificationManager = new WindowNotificationManager(_topLevel)
+            {
+                MaxItems = 3,
+                Position = NotificationPosition.BottomCenter,
+                /*Width = 100,
+                Height = 50,
+                Padding = new Thickness(0)*/
+            };
             return _notificationManager;
         }
     }
+
+    public IClassicDesktopStyleApplicationLifetime DesktopLifetime
+    {
+        get
+        {
+            Ensure();
+            return _desktopLifetime!;
+        }
+    }
+
     public TopLevel? Get()
     {
         return GetTopLevelCore();
@@ -47,8 +62,22 @@ public class TopLevelProvider : ITopLevelProvider
             {
                 return desktop.MainWindow;
             }
-            throw new InvalidOperationException($"Can not get MainWindow from no-desktoplifetime!");
+            throw new InvalidOperationException($"Can not get MainWindow from not-desktoplifetime!");
         }
+    }
+
+    public void Shutdown()
+    {
+        Ensure();
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            desktop.Shutdown();
+        }
+        else
+        {
+            throw new InvalidOperationException($"Can not excute shutdown with not-desktoplifetime!");
+        }
+        
     }
 
     public TopLevel Ensure(TimeSpan timespan = default)
@@ -121,11 +150,12 @@ public class TopLevelProvider : ITopLevelProvider
             return _topLevel;
         }
 
-        if (Avalonia.Application.Current is null) return null;
-        switch (Avalonia.Application.Current.ApplicationLifetime)
+        if (Application.Current is null) return null;
+        switch (Application.Current.ApplicationLifetime)
         {
             case IClassicDesktopStyleApplicationLifetime { MainWindow: not null } desktop:
                 _topLevel = TopLevel.GetTopLevel(desktop.MainWindow);
+                _desktopLifetime = desktop;
                 return _topLevel;
             case ISingleViewApplicationLifetime { MainView: not null } single:
                 _topLevel = TopLevel.GetTopLevel(single.MainView);

@@ -1,5 +1,6 @@
 using System;
 using System.Security;
+using Avalonia.Controls.ApplicationLifetimes;
 using Lemon.Avaloniaui.Extensions.Abstracts;
 using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Core;
@@ -30,12 +31,19 @@ public class MainViewModel : INavigationAware
                     _isAxRdpInitializedSubject.OnNext(true);
                 };
             }).AddTo(ref disposableBuilder);
+        _topLevelProvider.DesktopLifetime.ShutdownRequested += ShutdownRequestedHandler;
         _disposable = disposableBuilder.Build();
     }
-
+    
     public BindableReactiveProperty<IAxRdpProvder?> Implementation
     {
         get;
+    }
+
+    private void ShutdownRequestedHandler(object? obj, ShutdownRequestedEventArgs? eventArgs)
+    {
+        Clean();
+        _topLevelProvider.DesktopLifetime.ShutdownRequested -= ShutdownRequestedHandler;
     }
 
     public void OnNavigatedTo(NavigationContext navigationContext)
@@ -62,9 +70,15 @@ public class MainViewModel : INavigationAware
 
     public void OnNavigatedFrom(NavigationContext navigationContext)
     {
+        Clean();
+    }
+
+    private void Clean()
+    {
         _isAxRdpInitializedSubject.Dispose();
         _disposable.Dispose();
-        Implementation.Value?.Disconnect();
+        //Implementation.Value?.Disconnect();
+        Implementation.Value?.Logout();
         Implementation.Value?.Dispose();
     }
 }

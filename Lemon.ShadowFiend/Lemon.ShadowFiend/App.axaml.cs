@@ -16,10 +16,5 @@ namespace Lemon.ShadowFiend
         {
             AvaloniaXamlLoader.Load(this);
         }
-
-        public override void OnFrameworkInitializationCompleted()
-        {
-            base.OnFrameworkInitializationCompleted();
-        }
     }
 }

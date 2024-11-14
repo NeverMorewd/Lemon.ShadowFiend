@@ -1,22 +1,29 @@
+using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Lemon.ModuleNavigation.Abstracts;
+using Avalonia.Controls.ApplicationLifetimes;
+using Lemon.Avaloniaui.Extensions.Abstracts;
+using Lemon.ShadowFiend.ViewModels;
 
 namespace Lemon.ShadowFiend.Views
 {
     public partial class ShellWindow : Window
     {
-        private readonly INavigationService _navigationService;
-        public ShellWindow(INavigationService navigationService)
+        private readonly ITopLevelProvider _topLevelProvider;
+        public ShellWindow(ITopLevelProvider topLevelProvider)
         {
             InitializeComponent();
-            _navigationService = navigationService;
+            _topLevelProvider = topLevelProvider;
         }
 
-        protected override void OnLoaded(RoutedEventArgs e)
+        protected override async void OnClosing(WindowClosingEventArgs e)
         {
-            base.OnLoaded(e);
-            //_navigationService.NavigateToView("MainRegion", "LogonView");
+            e.Cancel = true;
+            if (DataContext is not AppViewModel viewModel) return;
+            var allow = await viewModel.RaiseExitWarning();
+            if (allow)
+            {
+                _topLevelProvider.Shutdown();
+            }
         }
     }
 }

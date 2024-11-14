@@ -29,7 +29,7 @@
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.0" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="11.2.0" />
     <PackageReference Include="Lemon.Hosting.AvaloniauiDesktop" Version="1.0.0" />
-    <PackageReference Include="Lemon.ModuleNavigation.Avaloniaui" Version="2.0.2-beta" />
+    <PackageReference Include="Lemon.ModuleNavigation.Avaloniaui" Version="2.0.3-beta" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
     <PackageReference Include="R3Extensions.Avalonia" Version="1.2.9" />
     <PackageReference Include="Semi.Avalonia" Version="11.2.0" />
@@ -39,5 +39,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Lemon.Avaloniaui.Extensions\Lemon.Avaloniaui.Extensions.csproj" />
     <ProjectReference Include="..\OcxHome\OcxHome.csproj" />
+    <ProjectReference Include="..\Platform.Invoke.Win32\Platform.Invoke.Win32.csproj" />
   </ItemGroup>
 </Project>

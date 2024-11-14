@@ -13,6 +13,7 @@ using System.Runtime.Versioning;
 using Akavache;
 using Lemon.Avaloniaui.Extensions;
 using Lemon.Avaloniaui.Extensions.Abstracts;
+using Lemon.ModuleNavigation.Avaloniaui.Dialogs;
 using Lemon.ShadowFiend.Services;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
@@ -29,13 +30,14 @@ namespace Lemon.ShadowFiend
             hostBuilder.Logging.ClearProviders();
             hostBuilder.Logging.AddConsole();
             hostBuilder.Logging.SetMinimumLevel(LogLevel.Debug);
-
+            hostBuilder.Services.AddKeyedTransient<IAvaDialogWindow,DialogWindow>(DialogWindow.Key);
             hostBuilder.Services.AddAvaNavigationSupport();
             hostBuilder.Services.AddSingleton(BlobCache.UserAccount);
             hostBuilder.Services.AddSingleton<WindowsIdentityService>();
             hostBuilder.Services.AddSingleton<ITopLevelProvider, TopLevelProvider>();
             hostBuilder.Services.AddView<LogonView, LogonViewModel>(nameof(LogonView));
             hostBuilder.Services.AddView<MainView, MainViewModel>(nameof(MainView));
+            hostBuilder.Services.AddView<ExitWarnView, ExitWarnViewModel>("ExitWarn");
             hostBuilder.Services.AddTransient<IAxRdpHome, AxMsRdpHomeForm>();
             hostBuilder.Services.AddAvaloniauiDesktopApplication<App>(BuildAvaloniaApp);
             hostBuilder.Services.AddMainWindow<ShellWindow, AppViewModel>();

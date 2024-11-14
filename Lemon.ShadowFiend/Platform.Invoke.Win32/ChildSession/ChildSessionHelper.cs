@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Platform.Invoke.Win32.OS;
 
-namespace Platform.Invoke.Win32.WtsApi;
+namespace Platform.Invoke.Win32.ChildSession;
 
 public static class ChildSessionHelper
 {
@@ -13,61 +13,52 @@ public static class ChildSessionHelper
 
     public static bool DisableChildSession()
     {
-        if (OSVersionHelper.IsSupportedOsVersion())
+        if (!IsSupportChildSession())
         {
-            return Wtsapi32Invoker.WTSEnableChildSessions(false);
+            throw new InvalidOperationException("Current OS version does not support Windows child session!");
         }
-        return false;
+        return WtsApiDeclaration.WTSEnableChildSessions(false);
     }
     public static bool EnableChildSession()
     {
-        if (OSVersionHelper.IsSupportedOsVersion())
+        if (!IsSupportChildSession())
         {
-            return Wtsapi32Invoker.WTSEnableChildSessions(true);
+            throw new InvalidOperationException("Current OS version does not support Windows child session!");
         }
-        return false;
+        var result = WtsApiDeclaration.WTSEnableChildSessions(true);
+        if (!result)
+        {
+            
+        }
+        return result;
     }
     public static bool IsEnableChildSession()
     {
-        if (OSVersionHelper.IsSupportedOsVersion())
+        if (!IsSupportChildSession())
         {
-            Wtsapi32Invoker.WTSIsChildSessionsEnabled(out var isEnabled);
-            return isEnabled;
+            throw new InvalidOperationException("Current OS version does not support Windows child session!");
         }
-        else
-        {
-            throw new InvalidOperationException("此操作系统不支持子会话!");
-        }
+        WtsApiDeclaration.WTSIsChildSessionsEnabled(out var isEnabled);
+        return isEnabled;
     }
     public static bool LogOutChildSession()
     {
-        unsafe
+        if (!IsSupportChildSession())
         {
-            if (OSVersionHelper.IsSupportedOsVersion())
-            {
-                if (Wtsapi32Invoker.WTSGetChildSessionId(out uint SessionId) && !Wtsapi32Invoker.WTSLogoffSession((IntPtr)(void*)null, SessionId, bWait: true))
-                {
-                    Trace.TraceError($"ChildSession: Failed to logoff child session {SessionId}. Last error: {Marshal.GetLastWin32Error()}");
-                    return false;
-                }
-            }
+            throw new InvalidOperationException("Current OS version does not support Windows child session!");
         }
-        return true;
+        if (!WtsApiDeclaration.WTSGetChildSessionId(out var sessionId) ||
+            WtsApiDeclaration.WTSLogoffSession((IntPtr)null, sessionId, bWait: true)) return true;
+        Trace.TraceError($"ChildSession: Failed to logoff child session {sessionId}. Last error: {Marshal.GetLastWin32Error()}");
+        return false;
     }
     public static bool DisconnectChildSession()
     {
-        if (OSVersionHelper.IsSupportedOsVersion())  
+        if (!IsSupportChildSession())
         {
-            if (Wtsapi32Invoker.WTSGetChildSessionId(out uint SessionId) 
-                && !Wtsapi32Invoker.WTSDisconnectSession(IntPtr.Zero, SessionId, bWait: true))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            throw new InvalidOperationException("Current OS version does not support Windows child session!");
         }
-        return false;
+        return WtsApiDeclaration.WTSGetChildSessionId(out var sessionId) 
+               && !WtsApiDeclaration.WTSDisconnectSession(nint.Zero, sessionId, bWait: true);
     }
 }
