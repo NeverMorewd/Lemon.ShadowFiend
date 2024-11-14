@@ -60,6 +60,7 @@ public class WindowsIdentityService
 
     public void SetCache(WindowsIdentityModel userinfo)
     {
+        _cacheProvider.Invalidate(userinfo.UserName);
         _cacheProvider.InsertObject(userinfo.UserName, userinfo);
     }
     
@@ -139,21 +140,21 @@ public class WindowsIdentityService
     }
     private string GetErrorMessage(int errorCode)
     {
-        int FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x100;
-        int FORMAT_MESSAGE_IGNORE_INSERTS = 0x200;
-        int FORMAT_MESSAGE_FROM_SYSTEM = 0x1000;
+        var FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x100;
+        var FORMAT_MESSAGE_IGNORE_INSERTS = 0x200;
+        var FORMAT_MESSAGE_FROM_SYSTEM = 0x1000;
 
-        int msgSize = 255;
-        string lpMsgBuf = null;
-        int dwFlags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
+        var msgSize = 255;
+        var lpMsgBuf = "";
+        var dwFlags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
 
-        IntPtr lpSource = IntPtr.Zero;
-        IntPtr lpArguments = IntPtr.Zero;
-        int returnVal = FormatMessage(dwFlags, ref lpSource, errorCode, 0, ref lpMsgBuf, msgSize, ref lpArguments);
+        var lpSource = nint.Zero;
+        var lpArguments = nint.Zero;
+        var returnVal = FormatMessage(dwFlags, ref lpSource, errorCode, 0, ref lpMsgBuf, msgSize, ref lpArguments);
 
         if (returnVal == 0)
         {
-            throw new Exception("Failed to format message for error code " + errorCode.ToString() + ". ");
+            throw new Exception("Failed to format message for error code " + errorCode + ". ");
         }
 
         return lpMsgBuf;

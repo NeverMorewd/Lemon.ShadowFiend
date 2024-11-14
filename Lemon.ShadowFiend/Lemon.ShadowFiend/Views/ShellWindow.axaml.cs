@@ -1,3 +1,4 @@
+using Akavache;
 using Avalonia.Controls;
 using Lemon.Avaloniaui.Extensions.Abstracts;
 using Lemon.ShadowFiend.Models;
@@ -26,10 +27,9 @@ namespace Lemon.ShadowFiend.Views
             e.Cancel = true;
             if (DataContext is not ShellViewModel viewModel) return;
             var allow = await viewModel.RaiseExitWarning();
-            if (allow)
-            {
-                _topLevelProvider.Shutdown();
-            }
+            if (!allow) return;
+            await BlobCache.Shutdown();
+            _topLevelProvider.Shutdown();
         }
     }
 }
