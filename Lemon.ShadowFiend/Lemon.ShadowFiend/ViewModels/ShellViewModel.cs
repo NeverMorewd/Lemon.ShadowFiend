@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Dialogs;
+using Lemon.ShadowFiend.Models;
 using Lemon.ShadowFiend.Views;
 using R3;
 
