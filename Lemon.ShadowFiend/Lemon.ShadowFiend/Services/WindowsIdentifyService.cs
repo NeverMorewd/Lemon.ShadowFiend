@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Akavache;
 using Lemon.ShadowFiend.Models;
 using Microsoft.Extensions.Logging;
+using Platform.Invoke.Win32.Kernel32;
 
 namespace Lemon.ShadowFiend.Services;
 
@@ -72,7 +73,7 @@ public class WindowsIdentityService
             const int LOGON32_PROVIDER_DEFAULT = 0;
             const int LOGON32_LOGON_INTERACTIVE = 2;
 
-            var returnValue = LogonUser(userName, 
+            var returnValue = Kernel32Declaration.LogonUser(userName, 
                                         machineName, 
                                         password, 
                                         LOGON32_LOGON_INTERACTIVE,
@@ -90,7 +91,7 @@ public class WindowsIdentityService
                 }
                 else
                 {
-                    message = GetErrorMessage(code);
+                    message = ErrorMessageHelper.GetErrorMessage(code);
                     _logger.LogError("LogonUser:{message}",message);
                     return false;
                 }
@@ -113,7 +114,7 @@ public class WindowsIdentityService
         {
             if (tokenHandle != nint.Zero)
             {
-                CloseHandle(tokenHandle);
+                Kernel32Declaration.CloseHandle(tokenHandle);
             }
         }
     }
@@ -138,45 +139,4 @@ public class WindowsIdentityService
             machineName = Environment.MachineName;
         }
     }
-    private string GetErrorMessage(int errorCode)
-    {
-        var FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x100;
-        var FORMAT_MESSAGE_IGNORE_INSERTS = 0x200;
-        var FORMAT_MESSAGE_FROM_SYSTEM = 0x1000;
-
-        var msgSize = 255;
-        var lpMsgBuf = "";
-        var dwFlags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
-
-        var lpSource = nint.Zero;
-        var lpArguments = nint.Zero;
-        var returnVal = FormatMessage(dwFlags, ref lpSource, errorCode, 0, ref lpMsgBuf, msgSize, ref lpArguments);
-
-        if (returnVal == 0)
-        {
-            throw new Exception("Failed to format message for error code " + errorCode + ". ");
-        }
-
-        return lpMsgBuf;
-
-    }
-
-    [DllImport("advapi32.dll", SetLastError = true)]
-    private static extern bool LogonUser(string lpszUsername,
-        string lpszDomain,
-        string lpszPassword,
-        int dwLogonType,
-        int dwLogonProvider,
-        out IntPtr phToken
-    );
-
-    [DllImport("kernel32.dll")]
-    private static extern int FormatMessage(int dwFlags, ref IntPtr lpSource, int dwMessageId, int dwLanguageId,
-        ref String lpBuffer, int nSize, ref IntPtr Arguments);
-
-    [DllImport("kernel32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool CloseHandle(IntPtr hObject);
-
-    
 }

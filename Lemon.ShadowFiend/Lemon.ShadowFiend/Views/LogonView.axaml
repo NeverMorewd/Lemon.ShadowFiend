@@ -16,7 +16,11 @@
         </Style>
     </UserControl.Styles>
     <DockPanel Margin="5">
-        <StackPanel Orientation="Vertical" Spacing="5">
+        <StackPanel
+            Margin="0,8,0,0"
+            Orientation="Vertical"
+            Spacing="8"
+            VerticalAlignment="Top">
             <ComboBox
                 HorizontalAlignment="Stretch"
                 ItemsSource="{Binding Path=RdpTypes, Source={x:Static app:AppContextModel.Current}}"
