@@ -31,7 +31,7 @@ internal static class Program
         hostBuilder.Logging.ClearProviders();
         hostBuilder.Logging.AddConsole();
         hostBuilder.Logging.SetMinimumLevel(LogLevel.Debug);
-        hostBuilder.Services.AddKeyedTransient<IAvaDialogWindow, DialogWindow>(DialogWindow.Key);
+        hostBuilder.Services.AddAvaDialogWindow<DialogWindow>(DialogWindow.Key);
         hostBuilder.Services.AddAvaNavigationSupport();
         hostBuilder.Services.AddSingleton(BlobCache.UserAccount);
         hostBuilder.Services.AddSingleton<WindowsIdentityService>();
