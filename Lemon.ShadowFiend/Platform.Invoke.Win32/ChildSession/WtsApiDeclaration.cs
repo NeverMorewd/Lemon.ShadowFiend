@@ -2,20 +2,25 @@
 
 namespace Platform.Invoke.Win32.ChildSession;
 
-public static class WtsApiDeclaration
+public static partial class WtsApiDeclaration
 {
-    [DllImport("Wtsapi32.dll", SetLastError = true)]
-    public static extern bool WTSEnableChildSessions(bool enable);
+    [LibraryImport("Wtsapi32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool WTSEnableChildSessions([MarshalAs(UnmanagedType.Bool)] bool enable);
 
-    [DllImport("Wtsapi32.dll", SetLastError = true)]
-    public static extern bool WTSIsChildSessionsEnabled(out bool isEnabled);
+    [LibraryImport("Wtsapi32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool WTSIsChildSessionsEnabled([MarshalAs(UnmanagedType.Bool)] out bool isEnabled);
 
-    [DllImport("Wtsapi32.dll", SetLastError = true)]
-    public static extern bool WTSGetChildSessionId(out uint sessionId);
-    
-    [DllImport("Wtsapi32.dll", SetLastError = true)]
-    public static extern bool WTSLogoffSession(nint hServer, uint sessionId, bool bWait);
+    [LibraryImport("Wtsapi32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool WTSGetChildSessionId(out uint sessionId);
 
-    [DllImport("Wtsapi32.dll", SetLastError = true)]
-    public static extern bool WTSDisconnectSession(nint hServer, uint sessionId, bool bWait);
+    [LibraryImport("Wtsapi32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool WTSLogoffSession(nint hServer, uint sessionId, [MarshalAs(UnmanagedType.Bool)] bool bWait);
+
+    [LibraryImport("Wtsapi32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool WTSDisconnectSession(nint hServer, uint sessionId, [MarshalAs(UnmanagedType.Bool)] bool bWait);
 }

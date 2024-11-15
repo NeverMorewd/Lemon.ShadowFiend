@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 
 namespace Platform.Invoke.Win32.Kernel32;
 
-public class Kernel32Declaration
+public static class Kernel32Declaration
 {
     [DllImport("advapi32.dll", SetLastError = true)]
     public static extern bool LogonUser(string lpszUsername,

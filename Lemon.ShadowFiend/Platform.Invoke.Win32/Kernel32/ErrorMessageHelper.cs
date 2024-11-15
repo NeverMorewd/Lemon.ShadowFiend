@@ -2,11 +2,11 @@ namespace Platform.Invoke.Win32.Kernel32;
 
 public static class ErrorMessageHelper
 {
+    private const int FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x100;
+    private const int FORMAT_MESSAGE_IGNORE_INSERTS = 0x200;
+    private const int FORMAT_MESSAGE_FROM_SYSTEM = 0x1000;
     public static string GetErrorMessage(int errorCode)
     {
-        var FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x100;
-        var FORMAT_MESSAGE_IGNORE_INSERTS = 0x200;
-        var FORMAT_MESSAGE_FROM_SYSTEM = 0x1000;
 
         var msgSize = 255;
         var lpMsgBuf = "";
