@@ -22,11 +22,11 @@ namespace Lemon.ShadowFiend.NativeHost.AxRdp
 
         public event Action<nint>? OnInitialized;
 
-        public async Task Logout()
+        public async Task LogoutChildSession()
         {
             if (_isInitialized)
             {
-                await _axRdpHome!.Logout();
+                await _axRdpHome!.LogoutChildSession();
             }
         }
 
@@ -38,14 +38,15 @@ namespace Lemon.ShadowFiend.NativeHost.AxRdp
                 _disposable = _axRdpHome.MessageStream
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Subscribe(m => 
-                {
-                    if (m.MessageType == "OnLoad")
                     {
-                        //_axRdpHome.Connect("localhost","@hotmail.com","",true);
-                        _isInitialized = true;
-                        OnInitialized?.Invoke(_axRdpHome.Hwnd);
-                    }
-                });
+                        if (m.MessageType == "OnLoad")
+                        {
+                            //_axRdpHome.Connect("localhost","@hotmail.com","",true);
+                            _isInitialized = true;
+                            OnInitialized?.Invoke(_axRdpHome.Hwnd);
+                        }
+                        Console.WriteLine(m.ToString());
+                    });
                 _axRdpHome.Load();
                 return new Win32WindowControlHandle(_axRdpHome.Hwnd, "HWND");
             }

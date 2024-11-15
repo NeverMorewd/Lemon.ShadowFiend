@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Lemon.Avaloniaui.Extensions.Abstracts;
 using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Core;
+using Lemon.ShadowFiend.Models;
 using Lemon.ShadowFiend.NativeHost.AxRdp;
 using Lemon.ShadowFiend.Utils;
 using R3;
@@ -58,7 +59,15 @@ public class MainViewModel : INavigationAware
             .Take(1)
             .Subscribe(_ =>
             {
-                Implementation.Value?.ConntectToChildSession(userName!, pwd!);
+                if (AppContextModel.Current.CurrentRdpType.Value == RdpType.ChildSession)
+                {
+                    Implementation.Value?.ConntectToChildSession(userName!, pwd!);
+                }
+                else
+                {
+                    var serverName = parameters.GetValue<string>("ServerName")!;
+                    Implementation.Value?.Connect(serverName!, userName!, pwd!);
+                }
             });
 
     }
@@ -77,8 +86,11 @@ public class MainViewModel : INavigationAware
     {
         _isAxRdpInitializedSubject.Dispose();
         _disposable.Dispose();
-        //Implementation.Value?.Disconnect();
-        Implementation.Value?.Logout();
+        Implementation.Value?.Disconnect();
+        if (AppContextModel.Current.CurrentRdpType.Value == RdpType.ChildSession)
+        {
+            Implementation.Value?.LogoutChildSession();
+        }
         Implementation.Value?.Dispose();
     }
 }

@@ -26,6 +26,11 @@
                 ItemsSource="{Binding Path=RdpTypes, Source={x:Static app:AppContextModel.Current}}"
                 SelectedItem="{Binding Path=CurrentRdpType.Value, Source={x:Static app:AppContextModel.Current}}" />
             <TextBox
+                IsVisible="{Binding ServerNameVisible.Value}"
+                Name="ServerName"
+                Text="{Binding ServerName.Value}"
+                Watermark="ServerName" />
+            <TextBox
                 Name="UserName"
                 Text="{Binding UserName.Value}"
                 Watermark="UserName" />

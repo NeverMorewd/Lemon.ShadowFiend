@@ -10,6 +10,6 @@
         void Unload();
         void Connect(string server, string name, string pwd, bool childSession);
         void Disconnect();
-        Task Logout();
+        Task LogoutChildSession();
     }
 }

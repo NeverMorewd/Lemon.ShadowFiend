@@ -101,10 +101,18 @@ namespace OcxHome.AxMsRdpHome
 
         public void Disconnect()
         {
-            axMsRdpClient8?.Disconnect();
+            try
+            {
+                axMsRdpClient8?.Disconnect();
+            }
+            catch (Exception e)
+            {
+                Messaging?.Invoke(new OcxMessage("Disconnect", e));
+            }
+
         }
 
-        public Task Logout()
+        public Task LogoutChildSession()
         {
             return 
             Task.Factory.StartNew(() =>

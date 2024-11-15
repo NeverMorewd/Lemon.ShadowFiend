@@ -17,7 +17,7 @@ using R3;
 
 namespace Lemon.ShadowFiend.ViewModels;
 
-public class LogonViewModel : ViewModelBase, IDialogAware, INavigationAware
+public class LogonViewModel : ViewModelBase, INavigationAware
 {
     private readonly ILogger _logger;
     private readonly INavigationService _navigationService;
@@ -36,8 +36,10 @@ public class LogonViewModel : ViewModelBase, IDialogAware, INavigationAware
         _topLevelProvider = topLevelProvider;
         _windowsIdentifyService = windowsIdentifyService;
         _cacheProvider = cacheProvider;
-        UserName = new BindableReactiveProperty<string>().EnableValidation();
-        Password = new BindableReactiveProperty<string>().EnableValidation();
+        UserName = new BindableReactiveProperty<string>("").EnableValidation();
+        Password = new BindableReactiveProperty<string>("").EnableValidation();
+        ServerName = new BindableReactiveProperty<string>("").EnableValidation();
+        ServerNameVisible = new BindableReactiveProperty<bool>();
         LogonCommand = new ReactiveCommand<ReadOnlyCollection<object>, (bool, string)>(LogonExecute, AwaitOperation.Sequential);
         LogonCommand.ChangeCanExecute(false);
         LogonCommand
@@ -57,24 +59,43 @@ public class LogonViewModel : ViewModelBase, IDialogAware, INavigationAware
                     await Task.Delay(TimeSpan.FromSeconds(2), token);
                 }
             }, maxConcurrent: 1);
-        UserName.Select(name => !string.IsNullOrEmpty(name))
-            .Do(r =>
-            {
-                if (!r)
+        
+        Observable.CombineLatest(        
+            UserName
+                .Select(name => !string.IsNullOrEmpty(name))
+                .Do(r =>
                 {
-                    UserName.OnErrorResume(new Exception("Please enter a valid username"));
-                }
-            })
-            .CombineLatest(Password
-                    .Select(password => !string.IsNullOrEmpty(password))
-                    .Do(r =>
+                    if (!r)
                     {
-                        if (!r)
-                        {
-                            Password.OnErrorResume(new Exception("Please enter a valid password"));
-                        }
-                    }),
-                (isValidUserName, isValidPassword) => isValidUserName && isValidPassword)
+                        UserName.OnErrorResume(new Exception("Please enter a valid username"));
+                    }
+                }),
+             Password
+                .Select(password => !string.IsNullOrEmpty(password))
+                .Do(r =>
+                {
+                    if (!r)
+                    {
+                        Password.OnErrorResume(new Exception("Please enter a valid password"));
+                    }
+                }),
+            ServerName
+                .Select(serverName =>
+                {
+                    if (AppContextModel.Current.CurrentRdpType.Value == RdpType.RemoteSession)
+                    {
+                        return !string.IsNullOrEmpty(serverName);
+                    }
+                    return true;
+                })
+                .Do(r =>
+                {
+                    if (!r)
+                    {
+                        ServerName.OnErrorResume(new Exception("Please enter a valid servername"));
+                    }
+                }),
+            (isValidUserName, isValidPassword, isValidServerName) => isValidUserName && isValidPassword && isValidServerName)
             .Subscribe(canExecute => { LogonCommand.ChangeCanExecute(canExecute); });
 
         AppContextModel.Current.CurrentRdpType.SubscribeAwait(OnNext);
@@ -84,13 +105,14 @@ public class LogonViewModel : ViewModelBase, IDialogAware, INavigationAware
 
     public BindableReactiveProperty<string> UserName { get; }
     public BindableReactiveProperty<string> Password { get; }
+    public BindableReactiveProperty<string> ServerName { get; }
+    public BindableReactiveProperty<bool> ServerNameVisible { get; }
     public ReactiveCommand<ReadOnlyCollection<object>, (bool, string)> LogonCommand { get; }
-    public string Title => "Logon";
-    public event Action<IDialogResult>? RequestClose;
     private async ValueTask OnNext(RdpType type, CancellationToken token)
     {
         if (type == RdpType.ChildSession)
         {
+            ServerNameVisible.Value = false;
             UserName.Value = (await _windowsIdentifyService.GetCurrentUserName())!;
             var userInfo = await _windowsIdentifyService.GetCache(UserName.Value);
             if (userInfo.HasValue)
@@ -112,10 +134,19 @@ public class LogonViewModel : ViewModelBase, IDialogAware, INavigationAware
                 }
             }
         }
+        else
+        {
+            ServerNameVisible.Value = true;
+            ServerName.OnNext("");
+        }
     }
     private async ValueTask<(bool, string)> LogonExecute(ReadOnlyCollection<object> input,
         CancellationToken cancellationToken)
     {
+        if (AppContextModel.Current.CurrentRdpType.Value == RdpType.RemoteSession)
+        {
+            return (true, "");
+        }
         AppContextModel.Current.Busy.Value = true;
         try
         {
@@ -133,16 +164,6 @@ public class LogonViewModel : ViewModelBase, IDialogAware, INavigationAware
         }
     }
 
-    public void OnDialogClosed()
-    {
-        //throw new NotImplementedException();
-    }
-
-    public void OnDialogOpened(IDialogParameters? parameters)
-    {
-        _logger.LogDebug($"Logon");
-    }
-
     public void OnNavigatedTo(NavigationContext navigationContext)
     {
         _topLevelProvider.SetMainWindowSize(400, 500);
@@ -152,7 +173,6 @@ public class LogonViewModel : ViewModelBase, IDialogAware, INavigationAware
 
     public bool IsNavigationTarget(NavigationContext navigationContext)
     {
-        //throw new NotImplementedException();
         return true;
     }
 
@@ -168,7 +188,8 @@ public class LogonViewModel : ViewModelBase, IDialogAware, INavigationAware
         var parameters = new NavigationParameters
         {
             { "UserName", UserName.Value.ToSecureString() },
-            { "Password", Password.Value.ToSecureString() }
+            { "Password", Password.Value.ToSecureString() },
+            { "ServerName", ServerName.Value }
         };
         return parameters;
     }
