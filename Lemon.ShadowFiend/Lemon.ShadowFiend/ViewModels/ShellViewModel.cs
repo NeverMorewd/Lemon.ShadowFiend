@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Avalonia;
+using Avalonia.Collections;
+using Avalonia.Markup.Xaml.Styling;
+using Avalonia.Styling;
 using Lemon.ModuleNavigation.Abstracts;
 using Lemon.ModuleNavigation.Dialogs;
 using Lemon.ShadowFiend.Views;
+using R3;
 
 namespace Lemon.ShadowFiend.ViewModels;
 

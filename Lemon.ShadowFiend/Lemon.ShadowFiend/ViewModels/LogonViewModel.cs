@@ -130,9 +130,11 @@ public class LogonViewModel : ViewModelBase, INavigationAware
                         _topLevelProvider.NotificationManager!.Show(
                             "Fail to enable child session!Please restart with Administrator!", NotificationType.Error,
                             TimeSpan.FromSeconds(5));
+                        return;
                     }
                 }
             }
+            LogonCommand.ChangeCanExecute(true);
         }
         else
         {

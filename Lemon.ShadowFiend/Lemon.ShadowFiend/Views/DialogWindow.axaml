@@ -15,25 +15,4 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Window.Styles>
-        <Styles>
-            <Style Selector="Window">
-                <Setter Property="Template">
-                    <ControlTemplate>
-                        <Border Background="#16161A" BorderThickness="0">
-                            <Grid RowDefinitions="30,*">
-                                <ContentPresenter
-                                    Content="{TemplateBinding Content}"
-                                    Grid.Row="1"
-                                    HorizontalAlignment="Center"
-                                    HorizontalContentAlignment="Center"
-                                    Padding="5" />
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter>
-            </Style>
-        </Styles>
-
-    </Window.Styles>
 </Window>

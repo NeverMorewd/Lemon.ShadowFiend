@@ -1,21 +1,20 @@
-﻿using Avalonia;
+﻿using Akavache;
+using Avalonia;
 using Avalonia.ReactiveUI;
+using Lemon.Avaloniaui.Extensions;
+using Lemon.Avaloniaui.Extensions.Abstracts;
 using Lemon.Hosting.AvaloniauiDesktop;
 using Lemon.ModuleNavigation.Avaloniaui;
+using Lemon.ShadowFiend.Services;
 using Lemon.ShadowFiend.ViewModels;
 using Lemon.ShadowFiend.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OcxHome.AxMsRdpHome;
+using R3;
 using System;
 using System.Runtime.Versioning;
-using Akavache;
-using Lemon.Avaloniaui.Extensions;
-using Lemon.Avaloniaui.Extensions.Abstracts;
-using Lemon.ModuleNavigation.Avaloniaui.Dialogs;
-using Lemon.ShadowFiend.Services;
-using R3;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Lemon.ShadowFiend;
