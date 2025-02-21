@@ -1,11 +1,11 @@
 <Application
-    RequestedThemeVariant="Dark"
     x:Class="Lemon.ShadowFiend.App"
     xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:semi="https://irihi.tech/semi"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    RequestedThemeVariant="Dark">
     <Application.Styles>
-        <!--<semi:SemiTheme Locale="zh-cn" />-->
-		<ClassicTheme />
+        <semi:SemiTheme Locale="zh-cn" />
+        <!--<ClassicTheme />-->
     </Application.Styles>
 </Application>

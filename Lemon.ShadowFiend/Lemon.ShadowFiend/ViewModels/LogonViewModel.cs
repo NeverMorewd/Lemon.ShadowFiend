@@ -57,6 +57,7 @@ public class LogonViewModel : ViewModelBase, INavigationAware
                     _topLevelProvider.NotificationManager!.Show("Invalid username or password",
                         NotificationType.Error,TimeSpan.FromSeconds(2));
                     await Task.Delay(TimeSpan.FromSeconds(2), token);
+                    AppContextModel.Current.Title.Value = $"{ServerName}";
                 }
             }, maxConcurrent: 1);
         

@@ -14,6 +14,8 @@ public class AppContextModel : ViewModelBase
         RdpTypes = EnumUtils.GetAllMembers<RdpType>();
         CurrentRdpType = new BindableReactiveProperty<RdpType>(RdpType.ChildSession);
         Busy = new BindableReactiveProperty<bool>(false);
+        IsTopMost = new BindableReactiveProperty<bool>(false);
+        Title = new BindableReactiveProperty<string>("ShadowFiend");
     }
 
     public BindableReactiveProperty<RdpType> CurrentRdpType
@@ -21,7 +23,22 @@ public class AppContextModel : ViewModelBase
         get; 
     }
 
-    public IEnumerable<RdpType> RdpTypes { get; }
+    public IEnumerable<RdpType> RdpTypes 
+    { 
+        get; 
+    }
 
-    public BindableReactiveProperty<bool> Busy { get; }
+    public BindableReactiveProperty<bool> Busy 
+    { 
+        get; 
+    }
+    public BindableReactiveProperty<string> Title
+    {
+        get;
+    }
+    public BindableReactiveProperty<bool> IsTopMost
+
+    {
+        get;
+    }
 }
