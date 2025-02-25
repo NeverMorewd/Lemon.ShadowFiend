@@ -49,6 +49,7 @@ public class LogonViewModel : ViewModelBase, INavigationAware
                 if (r.Item1)
                 {
                     _navigationService.RequestViewNavigation("MainRegion", "MainView", BuildParameters());
+                    AppContextModel.Current.Title.Value = $"{ServerName}";
                 }
                 else
                 {
@@ -57,7 +58,6 @@ public class LogonViewModel : ViewModelBase, INavigationAware
                     _topLevelProvider.NotificationManager!.Show("Invalid username or password",
                         NotificationType.Error,TimeSpan.FromSeconds(2));
                     await Task.Delay(TimeSpan.FromSeconds(2), token);
-                    AppContextModel.Current.Title.Value = $"{ServerName}";
                 }
             }, maxConcurrent: 1);
         
