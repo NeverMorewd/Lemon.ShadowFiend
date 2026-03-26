@@ -1,6 +1,5 @@
 ﻿using Akavache;
 using Avalonia;
-using Avalonia.ReactiveUI;
 using Lemon.Avaloniaui.Extensions;
 using Lemon.Avaloniaui.Extensions.Abstracts;
 using Lemon.Hosting.AvaloniauiDesktop;
@@ -52,6 +51,6 @@ internal static class Program
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace()
-            .UseReactiveUI();
+            .UseR3();
     }
 }
