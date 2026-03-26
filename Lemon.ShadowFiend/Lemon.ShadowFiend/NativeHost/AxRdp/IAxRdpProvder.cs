@@ -8,7 +8,7 @@ namespace Lemon.ShadowFiend.NativeHost.AxRdp
     {
         event Action<nint>? OnInitialized;
         void Connect(string server, string userName, string password);
-        void ConntectToChildSession(string userName, string password);
+        void ConnectToChildSession(string userName, string password);
         void Disconnect();
         IPlatformHandle CreateControl(bool isSecond, IPlatformHandle parent, Func<IPlatformHandle> createDefault);
         Task LogoutChildSession();

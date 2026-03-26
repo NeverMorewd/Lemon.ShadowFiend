@@ -37,6 +37,6 @@ public struct WindowsIdentityModel
 
     public override int GetHashCode()
     {
-        return (UserName, Password).GetHashCode();
+        return (UserName, Password, MachineName).GetHashCode();
     }
 }

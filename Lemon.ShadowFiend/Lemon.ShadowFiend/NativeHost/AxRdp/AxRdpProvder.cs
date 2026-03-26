@@ -70,7 +70,7 @@ namespace Lemon.ShadowFiend.NativeHost.AxRdp
             }
         }
         
-        public void ConntectToChildSession(string userName, string password)
+        public void ConnectToChildSession(string userName, string password)
         {
             if (_isInitialized)
             {

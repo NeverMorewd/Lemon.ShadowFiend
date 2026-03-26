@@ -16,6 +16,7 @@ public class MainViewModel : INavigationAware
     private readonly ITopLevelProvider _topLevelProvider;
     private readonly BehaviorSubject<bool> _isAxRdpInitializedSubject;
     private readonly IDisposable _disposable;
+    private bool _cleaned;
 
     public MainViewModel(ITopLevelProvider topLevelProvider)
     {
@@ -61,7 +62,7 @@ public class MainViewModel : INavigationAware
             {
                 if (AppContextModel.Current.CurrentRdpType.Value == RdpType.ChildSession)
                 {
-                    Implementation.Value?.ConntectToChildSession(userName!, pwd!);
+                    Implementation.Value?.ConnectToChildSession(userName!, pwd!);
                 }
                 else
                 {
@@ -84,6 +85,8 @@ public class MainViewModel : INavigationAware
 
     private void Clean()
     {
+        if (_cleaned) return;
+        _cleaned = true;
         _isAxRdpInitializedSubject.Dispose();
         _disposable.Dispose();
         Implementation.Value?.Disconnect();
