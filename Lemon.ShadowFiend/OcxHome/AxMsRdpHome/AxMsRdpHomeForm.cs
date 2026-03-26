@@ -82,6 +82,7 @@ namespace OcxHome.AxMsRdpHome
                 advancedSettings.SmartSizing = true;
                 advancedSettings.DisplayConnectionBar = false;
                 advancedSettings.RedirectSmartCards = true;
+                advancedSettings.RedirectClipboard = true;
                 //_advancedSettings.PluginDlls = GetInstalledPluginDlls();
 
                 axMsRdpClient8.DesktopWidth = Screen.PrimaryScreen!.Bounds.Width;

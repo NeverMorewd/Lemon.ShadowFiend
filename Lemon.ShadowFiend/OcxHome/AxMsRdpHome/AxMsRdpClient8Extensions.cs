@@ -41,7 +41,7 @@ namespace OcxHome.AxMsRdpHome
             var disconnected = Observable.FromEventPattern<IMsTscAxEvents_OnDisconnectedEventHandler, IMsTscAxEvents_OnDisconnectedEvent>(
                   h => rdpClient.OnDisconnected += h,
                   h => rdpClient.OnDisconnected -= h)
-                  .Select(e => new OcxMessage("Warning", e.EventArgs));
+                  .Select(e => new OcxMessage("Disconnected", e.EventArgs));
 
             var logonError = Observable.FromEventPattern<IMsTscAxEvents_OnLogonErrorEventHandler, IMsTscAxEvents_OnLogonErrorEvent>(
                 h => rdpClient.OnLogonError += h,
