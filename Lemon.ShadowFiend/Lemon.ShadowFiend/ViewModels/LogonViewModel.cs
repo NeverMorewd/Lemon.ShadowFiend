@@ -49,6 +49,7 @@ public class LogonViewModel : ViewModelBase, INavigationAware
                 if (r.Item1)
                 {
                     _navigationService.RequestViewNavigation("MainRegion", "MainView", BuildParameters());
+                    AppContextModel.Current.Title.Value = $"{ServerName}";
                 }
                 else
                 {

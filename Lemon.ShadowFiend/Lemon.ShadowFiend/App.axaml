@@ -1,5 +1,4 @@
 <Application
-    RequestedThemeVariant="Dark"
     x:Class="Lemon.ShadowFiend.App"
     xmlns="https://github.com/avaloniaui"
     xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia"
