@@ -1,13 +1,14 @@
-using Akavache;
+﻿using Akavache;
 using Avalonia.Controls;
 using Lemon.Avaloniaui.Extensions.Abstracts;
 using Lemon.ShadowFiend.Models;
 using Lemon.ShadowFiend.ViewModels;
+using Pipboy.Avalonia;
 using R3;
 
 namespace Lemon.ShadowFiend.Views
 {
-    public partial class ShellWindow : Window
+    public partial class ShellWindow : PipboyWindow
     {
         private readonly ITopLevelProvider _topLevelProvider;
         public ShellWindow(ITopLevelProvider topLevelProvider)

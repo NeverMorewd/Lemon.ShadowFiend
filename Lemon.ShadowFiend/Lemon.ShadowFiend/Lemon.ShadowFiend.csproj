@@ -31,7 +31,7 @@
     <PackageReference Include="Lemon.ModuleNavigation.Avaloniaui" Version="2.0.3-beta" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Pipboy.Avalonia" Version="0.0.3-beta" />
+    <PackageReference Include="Pipboy.Avalonia" Version="1.0.0-preview.1" />
     <PackageReference Include="R3Extensions.Avalonia" Version="1.2.9" />
   </ItemGroup>
 

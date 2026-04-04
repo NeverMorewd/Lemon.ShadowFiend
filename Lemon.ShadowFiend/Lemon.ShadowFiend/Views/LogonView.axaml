@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d"
@@ -37,6 +37,7 @@
             <Button
                 Command="{Binding LogonCommand}"
                 Content="Logon"
+				HorizontalAlignment="Right"
                 IsDefault="True">
                 <Button.CommandParameter>
                     <MultiBinding>
