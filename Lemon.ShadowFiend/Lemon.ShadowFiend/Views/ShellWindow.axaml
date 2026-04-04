@@ -1,4 +1,4 @@
-<Window
+﻿<Window
     x:Class="Lemon.ShadowFiend.Views.ShellWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -75,8 +75,6 @@
             VerticalAlignment="Center"
             IsIndeterminate="True"
             IsVisible="{Binding Busy.Value, Source={x:Static app:AppContextModel.Current}}"
-            ShowProgressText="False"
-            VerticalAlignment="Center"
-            Width="100" />
+            ShowProgressText="False" />
     </Grid>
 </Window>
