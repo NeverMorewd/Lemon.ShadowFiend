@@ -1,11 +1,9 @@
 <Application
     x:Class="Lemon.ShadowFiend.App"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:semi="https://irihi.tech/semi"
-    RequestedThemeVariant="Dark">
+    xmlns:pipboy="clr-namespace:Pipboy.Avalonia;assembly=Pipboy.Avalonia"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Application.Styles>
-        <semi:SemiTheme Locale="zh-cn" />
-        <!--<ClassicTheme />-->
+        <pipboy:PipboyTheme />
     </Application.Styles>
 </Application>

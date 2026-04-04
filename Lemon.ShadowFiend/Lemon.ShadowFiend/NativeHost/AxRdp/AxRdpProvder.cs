@@ -1,11 +1,10 @@
 ﻿using Avalonia.Platform;
 using Microsoft.Extensions.DependencyInjection;
 using OcxHome.AxMsRdpHome;
-using ReactiveUI;
 using System;
-using System.Reactive.Linq;
+using R3;
 using System.Threading.Tasks;
-using OcxHome;
+using Avalonia.Threading;
 
 namespace Lemon.ShadowFiend.NativeHost.AxRdp
 {
@@ -36,7 +35,8 @@ namespace Lemon.ShadowFiend.NativeHost.AxRdp
             {
                 _axRdpHome = _serviceProvider.GetRequiredService<IAxRdpHome>();
                 _disposable = _axRdpHome.MessageStream
-                    .ObserveOn(RxApp.MainThreadScheduler)
+                    .ToObservable()
+                    .ObserveOnDispatcher(Dispatcher.UIThread)
                     .Subscribe(m => 
                     {
                         if (m.MessageType == "OnLoad")
@@ -70,7 +70,7 @@ namespace Lemon.ShadowFiend.NativeHost.AxRdp
             }
         }
         
-        public void ConntectToChildSession(string userName, string password)
+        public void ConnectToChildSession(string userName, string password)
         {
             if (_isInitialized)
             {

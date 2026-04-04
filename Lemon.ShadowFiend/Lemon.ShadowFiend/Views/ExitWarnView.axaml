@@ -14,16 +14,13 @@
     <DockPanel LastChildFill="True" Margin="10">
         <Grid DockPanel.Dock="Bottom">
             <Button
-                Classes="Danger"
                 Command="{Binding ConfirmCommand}"
                 Content="Confirm"
-                HorizontalAlignment="Left"
-                Theme="{DynamicResource SolidButton}" />
+                HorizontalAlignment="Left" />
             <Button
                 Command="{Binding CancelCommand}"
                 Content="Cancel"
-                HorizontalAlignment="Right"
-                Theme="{DynamicResource SolidButton}" />
+                HorizontalAlignment="Right" />
         </Grid>
         <Grid>
             <TextBlock

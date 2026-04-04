@@ -76,6 +76,7 @@
             IsIndeterminate="True"
             IsVisible="{Binding Busy.Value, Source={x:Static app:AppContextModel.Current}}"
             ShowProgressText="False"
-            Theme="{DynamicResource ProgressRing}" />
+            VerticalAlignment="Center"
+            Width="100" />
     </Grid>
 </Window>

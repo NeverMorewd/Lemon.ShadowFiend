@@ -48,7 +48,7 @@ public class WindowsIdentityService
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            _logger.LogWarning(e, "Cache miss for username: {Username}", username);
             return null;
         }
 

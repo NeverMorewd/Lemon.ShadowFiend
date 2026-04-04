@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/Users/wangd/source/repos/Lemon.ShadowFiend/Lemon.ShadowFiend/Lemon.ShadowFiend -maxdepth 3 -type d ! -path */obj* ! -path */bin* ! -path */.vs*)",
+      "Bash(wc -l /c/Users/wangd/source/repos/Lemon.ShadowFiend/Lemon.ShadowFiend/Lemon.ShadowFiend/**/*.cs)",
+      "WebSearch",
+      "WebFetch(domain:www.nuget.org)",
+      "WebFetch(domain:api.nuget.org)",
+      "WebFetch(domain:azuresearch-usnc.nuget.org)",
+      "WebFetch(domain:github.com)",
+      "Bash(gh pr:*)"
+    ]
+  }
+}
