@@ -4,6 +4,7 @@ Precondition
 - The child-session feature requires a Windows account with a specific password possibly.
 
 
-![image](https://github.com/user-attachments/assets/213a5d4c-77e3-4f78-88c7-64f883a8a1a6)
+<img width="400" height="500" alt="image" src="https://github.com/user-attachments/assets/c17b301d-dcf4-40d2-999d-52a42b24e833" />
 
-![image](https://github.com/user-attachments/assets/640bc76d-3cbf-4e97-814b-7a39b216966c)
+<img width="1912" height="1030" alt="image" src="https://github.com/user-attachments/assets/f62e7dc5-0667-4442-a6b3-66af5b96c33d" />
+
